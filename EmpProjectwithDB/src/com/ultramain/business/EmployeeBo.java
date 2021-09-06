@@ -16,7 +16,8 @@ public class EmployeeBo {
 		do {
 			System.out.println("1. View Employee");
 			System.out.println("2. Register Employee");
-			System.out.println("3. Exit");
+			System.out.println("3.Update employee");
+			System.out.println("4. Exit");
 			System.out.println("Enter your Choice: ");
 			choice = scan.nextInt();
 		
@@ -28,6 +29,10 @@ public class EmployeeBo {
 				registerEmployee(dao);
 				break;
 			case 3:
+				updateEmployee(dao);
+				break;
+			
+			case 4:
 				System.out.println("Thank you for using!..");
 				return;
 			}
@@ -53,7 +58,16 @@ public class EmployeeBo {
 			}
 			
 		}
-		
+		public void updateEmployee(EmployeeDao dao){
+			EmployeeDto empDto = getEmpDetails();
+			try {
+				dao.updateEmployee(empDto);
+				
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+			
+		}
 		private EmployeeDto getEmpDetails(){
 			Scanner scan = Scan.getScannerInstance();
 			EmployeeDto empDto = new EmployeeDto();

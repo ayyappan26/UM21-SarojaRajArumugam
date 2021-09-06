@@ -17,7 +17,7 @@ import com.ultramain.dto.EmployeeDto;
 public class EmployeeDao {
 	public void viewEmployees() throws SQLException {
 		Connection con = DataConnect.getDbConnection();
-		String sqlQuery = "SELECT * from emp where salary>10000";
+		String sqlQuery = "SELECT * from emp";
 		Statement st = con.createStatement();
 		ResultSet rs = st.executeQuery(sqlQuery);
 		
@@ -44,8 +44,15 @@ public class EmployeeDao {
 			System.out.println("Department :"+ department);
 			System.out.println("_____________________________________________");
 		}
-
 	}
+	public void viewEmp(int id) throws SQLException {
+		Connection con = DataConnect.getDbConnection();
+		String sqlQuery = "SELECT * from emp where empId=?";
+		PreparedStatement pst = con.prepareStatement(sqlQuery);
+		pst.setInt(1, id);
+		
+	}
+
 	public void registerEmployee(EmployeeDto empDto) throws SQLException{
 		Connection con = DataConnect.getDbConnection();
 		String sqlQuery = "INSERT INTO emp VALUES(?,?,?,?,?,?)";
@@ -57,6 +64,21 @@ public class EmployeeDao {
 		pst.setFloat(5, empDto.getSalary());
 		pst.setString(6, empDto.getDepartment());
 		
+		int rowsUpdated = pst.executeUpdate();
+		
+		System.out.println("Row Inserted: "+ rowsUpdated);
+		
+	}
+	
+	
+	public void updateEmployee(EmployeeDto empDto) throws SQLException{
+		Connection con = DataConnect.getDbConnection();
+		String sqlQuery = "UPDATE emp SET salary = ? where empId = ?";
+		PreparedStatement pst = con.prepareStatement(sqlQuery);
+		
+		pst.setFloat(1, empDto.getSalary());
+		pst.setInt(2,empDto.getEmpId());
+				
 		int rowsUpdated = pst.executeUpdate();
 		
 		System.out.println("Row Inserted: "+ rowsUpdated);
